@@ -1,8 +1,11 @@
 package com.example.school.dao;
 
 import com.example.school.dto.Subject;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import javax.persistence.*;
+import java.lang.reflect.Type;
 import java.util.List;
 
 @Entity
@@ -56,13 +59,16 @@ public class Student {
     public void setSubjects(String subjects) {
         this.subjects = subjects;
     }
-    //TODO add mapping from string to list of subjects
+
     public List<Subject> getSubjectList() {
+        Type requiredType = new TypeToken<List<Subject>>(){}.getType();
+        subjectList = new Gson().fromJson(subjects, requiredType);
         return subjectList;
     }
 
     public void setSubjectList(List<Subject> subjectList) {
         this.subjectList = subjectList;
+        this.subjects = new Gson().toJson(subjectList);
     }
 
     @Override
