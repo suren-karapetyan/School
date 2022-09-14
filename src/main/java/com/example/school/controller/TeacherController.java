@@ -15,7 +15,7 @@ import java.util.Optional;
 public class TeacherController {
 
     private final TeacherService teacherService;
-
+    //TODO remove domains from controller - use dao instead and map dao to domain in service layer.
     public TeacherController(TeacherService teacherService) {
         this.teacherService = teacherService;
     }
