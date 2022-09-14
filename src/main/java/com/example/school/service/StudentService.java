@@ -1,6 +1,6 @@
 package com.example.school.service;
 
-import com.example.school.dao.Student;
+import com.example.school.domain.Student;
 import com.example.school.repository.StudentRepository;
 import org.springframework.stereotype.Service;
 

@@ -1,6 +1,6 @@
 package com.example.school.controller;
 
-import com.example.school.dao.Student;
+import com.example.school.domain.Student;
 import com.example.school.service.StudentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

@@ -1,6 +1,6 @@
 package com.example.school.repository;
 
-import com.example.school.dao.Student;
+import com.example.school.domain.Student;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

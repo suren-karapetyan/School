@@ -1,4 +1,4 @@
-package com.example.school.dao;
+package com.example.school.domain;
 
 import com.example.school.dto.Subject;
 
