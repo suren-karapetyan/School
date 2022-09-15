@@ -1,6 +1,5 @@
 package com.example.school.domain;
 
-import com.example.school.dto.Subject;
 import lombok.*;
 
 import javax.persistence.*;
@@ -23,7 +22,4 @@ public class Teacher {
 
     @Column(name="last_name")
     private String lastName;
-    //TODO check if it is possible to save enum to db
-    @Column(name="subject")
-    private Subject subject;
 }
