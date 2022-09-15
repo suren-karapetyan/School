@@ -1,6 +1,7 @@
 package com.example.school.controller;
 
-import com.example.school.domain.Teacher;
+import com.example.school.dto.TeacherRequestDTO;
+import com.example.school.dto.TeacherResponseDTO;
 import com.example.school.service.TeacherService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -15,37 +16,36 @@ import java.util.Optional;
 public class TeacherController {
 
     private final TeacherService teacherService;
-    //TODO remove domains from controller - use dao instead and map dao to domain in service layer.
     public TeacherController(TeacherService teacherService) {
         this.teacherService = teacherService;
     }
 
     @PostMapping(value = "/teachers")
-    public ResponseEntity<Teacher> createTeacher(@RequestBody Teacher teacher) {
+    public ResponseEntity<TeacherResponseDTO> createTeacher(@RequestBody TeacherRequestDTO teacher) {
         log.debug("REST request to create a teacher {}", teacher);
         return ResponseEntity.ok(teacherService.createTeacher(teacher));
     }
 
     @GetMapping(value = "/teachers")
-    public ResponseEntity<List<Teacher>> getTeachers() {
+    public ResponseEntity<List<TeacherResponseDTO>> getTeachers() {
         log.debug("REST request to get all teachers");
         return ResponseEntity.ok(teacherService.getAllTeachers());
     }
 
     @GetMapping(value = "/teachers/{id}")
-    public ResponseEntity<Teacher> getTeacherById(@PathVariable("id") Long id) {
+    public ResponseEntity<TeacherResponseDTO> getTeacherById(@PathVariable("id") Long id) {
         log.debug("REST request to get teacher by id {}", id);
-        Optional<Teacher> teacher = teacherService.getTeacherByID(id);
+        Optional<TeacherResponseDTO> teacher = teacherService.getTeacherByID(id);
         if (teacher.isEmpty())
             return ResponseEntity.notFound().build();
 
         return ResponseEntity.ok(teacher.get());
     }
 
-    @PutMapping(value = "/teachers")
-    public ResponseEntity<Teacher> updateTeacher(@RequestBody Teacher teacher) {
+    @PutMapping(value = "/teachers/{id}")
+    public ResponseEntity<TeacherResponseDTO> updateTeacher(@PathVariable Long id, @RequestBody TeacherRequestDTO teacher) {
         log.debug("REST request to update a teacher {}", teacher);
-        return ResponseEntity.ok(teacherService.updateTeacher(teacher));
+        return ResponseEntity.ok(teacherService.updateTeacher(id, teacher));
     }
 
     @DeleteMapping(value = "/teachers/{id}")
