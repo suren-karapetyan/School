@@ -3,13 +3,13 @@ package com.example.school.service;
 import com.example.school.domain.Teacher;
 import com.example.school.dto.TeacherRequestDTO;
 import com.example.school.dto.TeacherResponseDTO;
-import com.example.school.exception.NotFoundException;
+import com.example.school.exception.ApiRequestException;
 import com.example.school.repository.TeacherRepository;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -36,22 +36,20 @@ public class TeacherService {
                 .collect(Collectors.toList());
     }
 
-    public Optional<TeacherResponseDTO> getTeacherByID(Long id) {
+    public TeacherResponseDTO getTeacherByID(Long id) {
+        Teacher entity = teacherRepository.findById(id)
+                .orElseThrow(() -> new ApiRequestException("Teacher not found", HttpStatus.NOT_FOUND));
 
-        TeacherResponseDTO response = mapToDTO(teacherRepository.findById(id).get());
-        return Optional.of(response);
+        return mapToDTO(entity);
     }
 
     public TeacherResponseDTO updateTeacher(Long id, TeacherRequestDTO request) {
-        Optional<Teacher> teacherOptional = teacherRepository.findById(id);
-        if (teacherOptional.isEmpty()) {
-            throw new NotFoundException("Teacher not found");
-        }
-        Teacher teacher = teacherOptional.get();
+        Teacher entity = teacherRepository.findById(id)
+                .orElseThrow(() -> new ApiRequestException("Teacher not found", HttpStatus.NOT_FOUND));
 
-        Teacher requestEntity = modelMapper.map(request, Teacher.class);
-        TeacherResponseDTO response = modelMapper.map(requestEntity, TeacherResponseDTO.class);
-        response.setId(teacher.getId());
+        Teacher requestEntity = mapToEntity(request);
+        TeacherResponseDTO response = mapToDTO(requestEntity);
+        response.setId(entity.getId());
         return response;
     }
 

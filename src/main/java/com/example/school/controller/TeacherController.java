@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "api/v1")
@@ -35,11 +34,7 @@ public class TeacherController {
     @GetMapping(value = "/teachers/{id}")
     public ResponseEntity<TeacherResponseDTO> getTeacherById(@PathVariable("id") Long id) {
         log.debug("REST request to get teacher by id {}", id);
-        Optional<TeacherResponseDTO> teacher = teacherService.getTeacherByID(id);
-        if (teacher.isEmpty())
-            return ResponseEntity.notFound().build();
-
-        return ResponseEntity.ok(teacher.get());
+        return ResponseEntity.ok(teacherService.getTeacherByID(id));
     }
 
     @PutMapping(value = "/teachers/{id}")

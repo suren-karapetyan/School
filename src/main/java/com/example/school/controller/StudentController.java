@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 
 @RestController
@@ -36,12 +35,7 @@ public class StudentController {
     @GetMapping(value = "/students/{id}")
     public ResponseEntity<StudentResponseDTO> getStudentById(@PathVariable("id") Long id) {
         log.debug("REST request to get student by id {}", id);
-        //TODO ask if it's a good practice to return Optional from service
-        Optional<StudentResponseDTO> student = studentService.getStudentById(id);
-        if (student.isEmpty())
-            return ResponseEntity.notFound().build();
-
-        return ResponseEntity.ok(student.get());
+        return ResponseEntity.ok(studentService.getStudentById(id));
     }
 
     @PutMapping(value = "/students/{id}")

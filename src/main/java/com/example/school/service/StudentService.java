@@ -3,13 +3,13 @@ package com.example.school.service;
 import com.example.school.domain.Student;
 import com.example.school.dto.StudentRequestDTO;
 import com.example.school.dto.StudentResponseDTO;
-import com.example.school.exception.NotFoundException;
+import com.example.school.exception.ApiRequestException;
 import com.example.school.repository.StudentRepository;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,22 +35,19 @@ public class StudentService {
                 .collect(Collectors.toList());
     }
 
-    public Optional<StudentResponseDTO> getStudentById(Long id) {
-        //TODO ask if this is a good practice
-        StudentResponseDTO response = mapToDTO(studentRepository.findById(id).get());
-        return Optional.of(response);
+    public StudentResponseDTO getStudentById(Long id) {
+        Student entity = studentRepository.findById(id)
+                .orElseThrow(() -> new ApiRequestException("Student not found", HttpStatus.NOT_FOUND));
+        return mapToDTO(entity);
     }
 
     public StudentResponseDTO updateStudent(Long id, StudentRequestDTO request) {
-        Optional<Student> studentOptional = studentRepository.findById(id);
-        if (studentOptional.isEmpty()) {
-            throw new NotFoundException("Student not found");
-        }
-        Student student = studentOptional.get();
+        Student entity = studentRepository.findById(id)
+                .orElseThrow(() -> new ApiRequestException("Student not found", HttpStatus.NOT_FOUND));
 
-        Student requestEntity = modelMapper.map(request, Student.class);
-        StudentResponseDTO response = modelMapper.map(requestEntity, StudentResponseDTO.class);
-        response.setId(student.getId());
+        Student requestEntity = mapToEntity(request);
+        StudentResponseDTO response = mapToDTO(requestEntity);
+        response.setId(entity.getId());
         return response;
     }
 
