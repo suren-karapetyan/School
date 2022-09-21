@@ -4,7 +4,7 @@ import com.example.school.dto.TeacherRequestDTO;
 import com.example.school.dto.TeacherResponseDTO;
 import com.example.school.service.TeacherService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,33 +20,37 @@ public class TeacherController {
     }
 
     @PostMapping(value = "/teachers")
-    public ResponseEntity<TeacherResponseDTO> createTeacher(@RequestBody TeacherRequestDTO teacher) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public @ResponseBody TeacherResponseDTO createTeacher(@RequestBody TeacherRequestDTO teacher) {
         log.debug("REST request to create a teacher {}", teacher);
-        return ResponseEntity.ok(teacherService.createTeacher(teacher));
+        return teacherService.createTeacher(teacher);
     }
 
     @GetMapping(value = "/teachers")
-    public ResponseEntity<List<TeacherResponseDTO>> getTeachers() {
+    @ResponseStatus(HttpStatus.OK)
+    public @ResponseBody List<TeacherResponseDTO> getTeachers() {
         log.debug("REST request to get all teachers");
-        return ResponseEntity.ok(teacherService.getAllTeachers());
+        return teacherService.getAllTeachers();
     }
 
     @GetMapping(value = "/teachers/{id}")
-    public ResponseEntity<TeacherResponseDTO> getTeacherById(@PathVariable("id") Long id) {
+    @ResponseStatus(HttpStatus.OK)
+    public @ResponseBody TeacherResponseDTO getTeacherById(@PathVariable("id") Long id) {
         log.debug("REST request to get teacher by id {}", id);
-        return ResponseEntity.ok(teacherService.getTeacherByID(id));
+        return teacherService.getTeacherByID(id);
     }
 
     @PutMapping(value = "/teachers/{id}")
-    public ResponseEntity<TeacherResponseDTO> updateTeacher(@PathVariable Long id, @RequestBody TeacherRequestDTO teacher) {
+    @ResponseStatus(HttpStatus.OK)
+    public @ResponseBody TeacherResponseDTO updateTeacher(@PathVariable Long id, @RequestBody TeacherRequestDTO teacher) {
         log.debug("REST request to update a teacher {}", teacher);
-        return ResponseEntity.ok(teacherService.updateTeacher(id, teacher));
+        return teacherService.updateTeacher(id, teacher);
     }
 
     @DeleteMapping(value = "/teachers/{id}")
-    public ResponseEntity<Void> deleteTeacher(@PathVariable("id") Long id) {
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteTeacher(@PathVariable("id") Long id) {
         log.debug("REST request to delete teacher by id {}", id);
         teacherService.deleteTeacher(id);
-        return ResponseEntity.noContent().build();
     }
 }
