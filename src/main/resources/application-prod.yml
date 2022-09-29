@@ -10,7 +10,7 @@ spring:
   datasource:
     url: # Cloud Database (for example Amazon Web Service)
     username: #root
-    password: # pasword
+    password: # password
   jpa:
     database-platform: #dialect
     show-sql: false
