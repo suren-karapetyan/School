@@ -1,0 +1,21 @@
+logging:
+  level:
+    ROOT: INFO
+
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+  datasource:
+    url: # Cloud Database (for example Amazon Web Service)
+    username: #root
+    password: # pasword
+  jpa:
+    database-platform: #dialect
+    show-sql: false
+    hibernate:
+      dll-auto: update
+
+server:
+  port: 9011

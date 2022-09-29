@@ -1,0 +1,21 @@
+logging:
+  level:
+    ROOT: INFO
+
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+  datasource:
+    url: jdbc:mysql://localhost:3355/school?useSSL=false
+    username: root
+    password: root
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5Dialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+server:
+  port: 9011
