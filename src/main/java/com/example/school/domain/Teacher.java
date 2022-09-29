@@ -22,4 +22,7 @@ public class Teacher {
 
     @Column(name="last_name")
     private String lastName;
+
+    @ManyToOne
+    private Gender gender;
 }

@@ -18,4 +18,4 @@ spring:
       dll-auto: update
 
 server:
-  port: 9011
+  port: 9022
